@@ -52,11 +52,11 @@ class App extends React.Component {
     displayWatchedTab(){
       var tmpList = this.state.movieList.slice(0);
       tmpList = tmpList.filter((movie) => (
-        movie.seen === true
+        movie.seen ===  true
       ))
       $(".toWatchTab").css("background-color", "white")
       $(".watchTab").css("background-color", "cyan")
-      $(".aFilmContainer").css("color", "black")
+      // $(".aFilm").css("color", "black")
       this.setState({showList: tmpList});
     }
 
@@ -67,7 +67,7 @@ class App extends React.Component {
       ))
       $(".toWatchTab").css("background-color", "cyan")
       $(".watchTab").css("background-color", "white")
-      $(".aFilmContainer").css("color", "black")
+      // $(".aFilm").css("color", "black")
       this.setState({showList: tmpList});
     }
 
@@ -75,8 +75,9 @@ class App extends React.Component {
       var toAdd = $(".toAdd").val();
       var tmpList = this.state.movieList.slice(0);
       tmpList.push({title: toAdd, seen: false});
-      this.displayToWatchTab();
-      this.setState({movieList: tmpList});
+      this.setState({movieList: tmpList}, ()=> {;
+        this.displayToWatchTab()
+      });
     }
 
     removeMovie(movieName){
@@ -102,7 +103,7 @@ class App extends React.Component {
             <WatchedTab displayWatchedTab={this.displayWatchedTab.bind(this)} />
             <ToWatchTab displayToWatchTab={this.displayToWatchTab.bind(this)} />
           </div>
-          <Movielist showMovies={this.state.showList} toggleSeen={this.toggleSeen.bind(this)} removeMovie={this.removeMovie.bind(this)} />
+          <Movielist defaultColor={"black"} showMovies={this.state.showList} toggleSeen={this.toggleSeen.bind(this)} removeMovie={this.removeMovie.bind(this)} />
         </div>
       )
     }

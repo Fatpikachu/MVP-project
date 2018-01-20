@@ -7,6 +7,7 @@ class AFilm extends React.Component {
       color: 'black'
     }
   }
+
   toggleFunc() {
     this.props.toggleSeen(this.props.movieName)
     if(this.state.color === 'black'){
@@ -16,10 +17,14 @@ class AFilm extends React.Component {
     }
   }
 
+  resetTxtColor(){
+    this.setState({color: 'black'});
+  }
+
   render(){
     return (
-      <div style={{color: this.state.color}} className="aFilmContainer">
-          <div className="aFilm" onClick={()=>{this.toggleFunc()}}>
+      <div className="aFilmContainer">
+          <div style={{color: this.state.color}} className="aFilm" onClick={()=>{this.toggleFunc()}}>
             {this.props.movie.title}
           </div>
           <button type="button" onClick={()=>{this.props.removeMovie(this.props.movie.title)}} className="removeButton btn btn-danger">Remove</button>

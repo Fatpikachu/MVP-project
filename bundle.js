@@ -983,16 +983,21 @@ var AFilm = function (_React$Component) {
       }
     }
   }, {
+    key: 'resetTxtColor',
+    value: function resetTxtColor() {
+      this.setState({ color: 'black' });
+    }
+  }, {
     key: 'render',
     value: function render() {
       var _this2 = this;
 
       return _react2.default.createElement(
         'div',
-        { style: { color: this.state.color }, className: 'aFilmContainer' },
+        { className: 'aFilmContainer' },
         _react2.default.createElement(
           'div',
-          { className: 'aFilm', onClick: function onClick() {
+          { style: { color: this.state.color }, className: 'aFilm', onClick: function onClick() {
               _this2.toggleFunc();
             } },
           this.props.movie.title
@@ -1117,7 +1122,7 @@ var App = function (_React$Component) {
       });
       (0, _jquery2.default)(".toWatchTab").css("background-color", "white");
       (0, _jquery2.default)(".watchTab").css("background-color", "cyan");
-      (0, _jquery2.default)(".aFilmContainer").css("color", "black");
+      // $(".aFilm").css("color", "black")
       this.setState({ showList: tmpList });
     }
   }, {
@@ -1129,17 +1134,21 @@ var App = function (_React$Component) {
       });
       (0, _jquery2.default)(".toWatchTab").css("background-color", "cyan");
       (0, _jquery2.default)(".watchTab").css("background-color", "white");
-      (0, _jquery2.default)(".aFilmContainer").css("color", "black");
+      // $(".aFilm").css("color", "black")
       this.setState({ showList: tmpList });
     }
   }, {
     key: 'addAMovie',
     value: function addAMovie() {
+      var _this2 = this;
+
       var toAdd = (0, _jquery2.default)(".toAdd").val();
       var tmpList = this.state.movieList.slice(0);
       tmpList.push({ title: toAdd, seen: false });
-      this.displayToWatchTab();
-      this.setState({ movieList: tmpList });
+      this.setState({ movieList: tmpList }, function () {
+        ;
+        _this2.displayToWatchTab();
+      });
     }
   }, {
     key: 'removeMovie',
@@ -1174,7 +1183,7 @@ var App = function (_React$Component) {
           _react2.default.createElement(_WatchedTab2.default, { displayWatchedTab: this.displayWatchedTab.bind(this) }),
           _react2.default.createElement(_ToWatchTab2.default, { displayToWatchTab: this.displayToWatchTab.bind(this) })
         ),
-        _react2.default.createElement(_Movielist2.default, { showMovies: this.state.showList, toggleSeen: this.toggleSeen.bind(this), removeMovie: this.removeMovie.bind(this) })
+        _react2.default.createElement(_Movielist2.default, { defaultColor: "black", showMovies: this.state.showList, toggleSeen: this.toggleSeen.bind(this), removeMovie: this.removeMovie.bind(this) })
       );
     }
   }]);
@@ -18518,7 +18527,7 @@ var Movielist = function Movielist(props) {
     'div',
     { className: 'listGroup' },
     props.showMovies.map(function (movie, i) {
-      return _react2.default.createElement(_AFilm2.default, { key: i, movie: movie, toggleSeen: props.toggleSeen, movieName: movie.title, removeMovie: props.removeMovie });
+      return _react2.default.createElement(_AFilm2.default, { defaultColor: props.defaultColor, key: i, movie: movie, toggleSeen: props.toggleSeen, movieName: movie.title, removeMovie: props.removeMovie });
     })
   );
 };
