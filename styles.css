@@ -42,6 +42,10 @@
     background-color: white;
 }
 
+.selected {
+    color: cyan;
+}
+
 .listGroup {
     /*background-color: white;*/
     width: 600px;
