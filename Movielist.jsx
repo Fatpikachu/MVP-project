@@ -5,7 +5,7 @@ const Movielist = (props) => {
   return (
     <div className="listGroup">
     {props.showMovies.map((movie, i) =>
-       <AFilm key={i} movie={movie} toggleSeen={props.toggleSeen} movieName={movie.title} removeMovie={props.removeMovie} />
+       <AFilm key={i} indx={i} movie={movie} toggleSeen={props.toggleSeen} movieName={movie.title} removeMovie={props.removeMovie} />
       )}
     </div>
   )

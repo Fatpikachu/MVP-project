@@ -965,30 +965,29 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var AFilm = function (_React$Component) {
   _inherits(AFilm, _React$Component);
 
-  function AFilm() {
+  function AFilm(props) {
     _classCallCheck(this, AFilm);
 
-    return _possibleConstructorReturn(this, (AFilm.__proto__ || Object.getPrototypeOf(AFilm)).apply(this, arguments));
+    return _possibleConstructorReturn(this, (AFilm.__proto__ || Object.getPrototypeOf(AFilm)).call(this, props));
   }
 
   _createClass(AFilm, [{
     key: 'toggleFunc',
-
-    // constructor(props){
-    //   super(props);
-    //   this.state = {
-    //     color: 'black'
-    //   }
-    // }
-
-    value: function toggleFunc() {
+    value: function toggleFunc(index) {
+      console.log('entered in togglefnc');
+      console.log('the index ', index);
       this.props.toggleSeen(this.props.movieName);
       // if(this.state.color === 'black'){
       //   this.setState({color: 'cyan'})
       // } else {
       //   this.setState({color: 'black'})
       // }
-      (0, _jquery2.default)(this).toggleClass("selected");
+      (0, _jquery2.default)("#" + index).toggleClass('selected');
+    }
+  }, {
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      (0, _jquery2.default)('.aFilm').removeClass('selected');
     }
   }, {
     key: 'render',
@@ -1000,8 +999,8 @@ var AFilm = function (_React$Component) {
         { className: 'aFilmContainer' },
         _react2.default.createElement(
           'div',
-          { style: { color: 'black' }, className: 'aFilm', onClick: function onClick() {
-              _this2.toggleFunc();
+          { id: 'test' + this.props.indx, className: 'aFilm', onClick: function onClick() {
+              _this2.toggleFunc('test' + _this2.props.indx);
             } },
           this.props.movie.title
         ),
@@ -11367,34 +11366,34 @@ var App = function (_React$Component) {
       //   alert('nothing found');
       // }
 
-      // fetch('https://api.themoviedb.org/3/movie/550?api_key=cdff0056822332d795254955a7791f79&query=' 
-      //   + input,
-      // {
-      //   method: 'GET',
-      //   headers: {
-      //     'Content-Type': 'application/json'
-      //   }
-      // })
-      // .then((res) => {
-      //   console.log(res)
-      // })
-      var url = 'http://api.themoviedb.org/3/';
-      var mode = 'search/movie?query=';
-      var key = '&api_key=cdff0056822332d795254955a7791f79';
-      _jquery2.default.ajax({
-        type: 'GET',
-        url: url + mode + input + key,
-        async: false,
-        jsonpCallback: 'testing',
-        contentType: 'application/json',
-        dataType: 'jsonp',
-        success: function success(json) {
-          console.log(json);
-        },
-        error: function error(e) {
-          console.log(e.message);
-        }
+      fetch('https://api.themoviedb.org/3/movie/550?api_key=cdff0056822332d795254955a7791f79&query=' + input, {
+        // method: 'GET',
+        // headers: {
+        //   'Content-Type': 'application/json'
+        // }
+      }).then(function (res) {
+        //console.log(res.json())
+        return res.json();
+      }).then(function (res) {
+        console.log(res);
       });
+      // var url = 'http://api.themoviedb.org/3/';
+      // var mode = 'search/movie?query=';
+      // var key = '&api_key=cdff0056822332d795254955a7791f79'
+      // $.ajax({
+      //       type: 'GET',
+      //       url: url + mode + input + key,
+      //       async: false,
+      //       jsonpCallback: 'testing',
+      //       contentType: 'application/json',
+      //       dataType: 'jsonp',
+      //       success: function(json) {
+      //           console.log(json);
+      //       },
+      //       error: function(e) {
+      //           console.log(e.message);
+      //       }
+      //   });
       (0, _jquery2.default)(".toWatchTab").css("background-color", "white");
       (0, _jquery2.default)(".watchTab").css("background-color", "white");
       //this.setState({showList: newlist});
@@ -28824,7 +28823,7 @@ var Movielist = function Movielist(props) {
     'div',
     { className: 'listGroup' },
     props.showMovies.map(function (movie, i) {
-      return _react2.default.createElement(_AFilm2.default, { key: i, movie: movie, toggleSeen: props.toggleSeen, movieName: movie.title, removeMovie: props.removeMovie });
+      return _react2.default.createElement(_AFilm2.default, { key: i, indx: i, movie: movie, toggleSeen: props.toggleSeen, movieName: movie.title, removeMovie: props.removeMovie });
     })
   );
 };
@@ -28908,19 +28907,51 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
 var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
+var _jquery = __webpack_require__(15);
+
+var _jquery2 = _interopRequireDefault(_jquery);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var WatchedTab = function WatchedTab(props) {
-  return _react2.default.createElement(
-    'div',
-    { className: 'watchTab', onClick: props.displayWatchedTab },
-    'Watched'
-  );
-};
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var WatchedTab = function (_React$Component) {
+  _inherits(WatchedTab, _React$Component);
+
+  function WatchedTab(props) {
+    _classCallCheck(this, WatchedTab);
+
+    return _possibleConstructorReturn(this, (WatchedTab.__proto__ || Object.getPrototypeOf(WatchedTab)).call(this, props));
+  }
+
+  _createClass(WatchedTab, [{
+    key: 'componentWillMount',
+    value: function componentWillMount() {
+      (0, _jquery2.default)('.aFilm').removeClass('selected');
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      return _react2.default.createElement(
+        'div',
+        { className: 'watchTab', onClick: this.props.displayWatchedTab },
+        'Watched'
+      );
+    }
+  }]);
+
+  return WatchedTab;
+}(_react2.default.Component);
 
 exports.default = WatchedTab;
 
@@ -28935,19 +28966,51 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
 var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
+var _jquery = __webpack_require__(15);
+
+var _jquery2 = _interopRequireDefault(_jquery);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var ToWatchTab = function ToWatchTab(props) {
-  return _react2.default.createElement(
-    'div',
-    { className: 'toWatchTab', onClick: props.displayToWatchTab },
-    'To Watch'
-  );
-};
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var ToWatchTab = function (_React$Component) {
+  _inherits(ToWatchTab, _React$Component);
+
+  function ToWatchTab(props) {
+    _classCallCheck(this, ToWatchTab);
+
+    return _possibleConstructorReturn(this, (ToWatchTab.__proto__ || Object.getPrototypeOf(ToWatchTab)).call(this, props));
+  }
+
+  _createClass(ToWatchTab, [{
+    key: 'componentWillMount',
+    value: function componentWillMount() {
+      (0, _jquery2.default)('.aFilm').removeClass('selected');
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      return _react2.default.createElement(
+        'div',
+        { className: 'toWatchTab', onClick: this.props.displayToWatchTab },
+        'To Watch'
+      );
+    }
+  }]);
+
+  return ToWatchTab;
+}(_react2.default.Component);
 
 exports.default = ToWatchTab;
 
@@ -28968,7 +29031,7 @@ var _react2 = _interopRequireDefault(_react);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var Searchlist = function Searchlist(props) {
+var SearchList = function SearchList(props) {
   return _react2.default.createElement(
     "div",
     { className: "searchlist" },

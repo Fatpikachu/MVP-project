@@ -1,9 +1,22 @@
 import React from 'react'
+import $ from 'jquery'
 
-const ToWatchTab = (props) => {
- return (<div className='toWatchTab' onClick={props.displayToWatchTab}>
-   To Watch
- </div>)
+
+class ToWatchTab extends React.Component {
+  
+ constructor(props){
+    super(props);
+  }
+
+ componentWillMount(){
+    $('.aFilm').removeClass('selected');
+  }
+
+ render(){
+     return (<div className='toWatchTab' onClick={this.props.displayToWatchTab}>
+       To Watch
+     </div>)
+     }
 }
 
 export default ToWatchTab

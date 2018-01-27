@@ -36,34 +36,37 @@ class App extends React.Component {
       //   alert('nothing found');
       // }
       
-      // fetch('https://api.themoviedb.org/3/movie/550?api_key=cdff0056822332d795254955a7791f79&query=' 
-      //   + input,
-      // {
-      //   method: 'GET',
-      //   headers: {
-      //     'Content-Type': 'application/json'
-      //   }
-      // })
-      // .then((res) => {
-      //   console.log(res)
-      // })
-      var url = 'http://api.themoviedb.org/3/';
-      var mode = 'search/movie?query=';
-      var key = '&api_key=cdff0056822332d795254955a7791f79'
-      $.ajax({
-            type: 'GET',
-            url: url + mode + input + key,
-            async: false,
-            jsonpCallback: 'testing',
-            contentType: 'application/json',
-            dataType: 'jsonp',
-            success: function(json) {
-                console.log(json);
-            },
-            error: function(e) {
-                console.log(e.message);
-            }
-        });
+      fetch('https://api.themoviedb.org/3/movie/550?api_key=cdff0056822332d795254955a7791f79&query=' 
+        + input,
+      {
+        // method: 'GET',
+        // headers: {
+        //   'Content-Type': 'application/json'
+        // }
+      })
+      .then((res) => {
+        //console.log(res.json())
+        return res.json()
+      }).then(res => {
+        console.log(res)
+      })
+      // var url = 'http://api.themoviedb.org/3/';
+      // var mode = 'search/movie?query=';
+      // var key = '&api_key=cdff0056822332d795254955a7791f79'
+      // $.ajax({
+      //       type: 'GET',
+      //       url: url + mode + input + key,
+      //       async: false,
+      //       jsonpCallback: 'testing',
+      //       contentType: 'application/json',
+      //       dataType: 'jsonp',
+      //       success: function(json) {
+      //           console.log(json);
+      //       },
+      //       error: function(e) {
+      //           console.log(e.message);
+      //       }
+      //   });
       $(".toWatchTab").css("background-color", "white")
       $(".watchTab").css("background-color", "white")
       //this.setState({showList: newlist});
@@ -88,6 +91,7 @@ class App extends React.Component {
       $(".toWatchTab").css("background-color", "white")
       $(".watchTab").css("background-color", "cyan")
       this.setState({showList: tmpList});
+      
     }
 
     displayToWatchTab(){

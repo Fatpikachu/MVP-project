@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Searchlist = (props) => {
+const SearchList = (props) => {
   return (
     <div className="searchlist">
      hi hi hi hohohoh

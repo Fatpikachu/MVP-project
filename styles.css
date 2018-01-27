@@ -52,6 +52,7 @@
     height: 600px;
     overflow-y: scroll;
     margin-top: 20px;
+    display: inline-block;
 }
 
 .removeButton {
@@ -61,6 +62,12 @@
     margin-top: 15px;
 }
 
+.searchList {
+    width: 600px;
+    height: 600px;
+    background-color: white;
+    display: inline-block;
+}
 
 
 
