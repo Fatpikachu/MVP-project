@@ -1,73 +1,13 @@
-.watchTab {
-    display: inline-block;
-    border-style: solid;
-    padding-top: 10px;
-    padding-right: 80px;
-    padding-bottom: 10px;
-    padding-left: 10px;
-    background-color: white;
-}
 
-.toWatchTab {
-    display: inline-block;
-    border-style: solid;
-    padding-top: 10px;
-    padding-right: 80px;
-    padding-bottom: 10px;
-    padding-left: 10px;
-    background-color: white;
-}
 
 .title {
     text-align:center;
 }
 
 #myApp {
-    padding: 50px;
-    background-image: url('./pic5.jpg');
-    background-size:cover
+
 }
 
-.aFilm {
-    display: inline-block;
-    font-size: 20px;
-    border-radius: 25px;
-    border: 2px solid blue;
-    padding: 15px; 
-    width: 500px;
-    height: 55px;
-    overflow: hidden;
-    overflow-x: scroll;
-    overflow-y: hidden;
-    background-color: white;
-}
-
-.selected {
-    color: cyan;
-}
-
-.listGroup {
-    /*background-color: white;*/
-    width: 600px;
-    height: 600px;
-    overflow-y: scroll;
-    margin-top: 20px;
-    display: inline-block;
-}
-
-.removeButton {
-    display: inline-block;
-    position: relative;
-    float: right;
-    margin-top: 15px;
-}
-
-.searchList {
-    width: 600px;
-    height: 600px;
-    background-color: white;
-    display: inline-block;
-}
 
 
 
