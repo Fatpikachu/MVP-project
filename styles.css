@@ -5,11 +5,28 @@
 }
 
 #myApp {
-
+  padding-top: 50px
 }
 
+p {
+  width: 600px;
+}
 
+button {
+  padding: 10px;
+}
 
+h3 {
+  width: 800px;
+  text-align: center;
+  align: "center"
+}
 
+.favoriteButn {
+  background-color: gray;
+}
 
-
+iframe {
+  display:block;
+  margin:auto;
+}

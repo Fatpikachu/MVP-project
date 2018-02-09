@@ -985,7 +985,11 @@ var _PreviousButton = __webpack_require__(36);
 
 var _PreviousButton2 = _interopRequireDefault(_PreviousButton);
 
-var _jquery = __webpack_require__(37);
+var _FavoriteButton = __webpack_require__(37);
+
+var _FavoriteButton2 = _interopRequireDefault(_FavoriteButton);
+
+var _jquery = __webpack_require__(38);
 
 var _jquery2 = _interopRequireDefault(_jquery);
 
@@ -1007,6 +1011,7 @@ var App = function (_React$Component) {
 
     _this.state = {
       imgurList: [{ images: [{ link: 'http://media.comicbook.com/2017/09/1-1019679.jpeg' }] }],
+      favList: [],
       currIndx: 0
     };
     return _this;
@@ -1046,16 +1051,48 @@ var App = function (_React$Component) {
       }
     }
   }, {
+    key: 'clearList',
+    value: function clearList() {
+      this.setState({ imgurList: [] });
+    }
+  }, {
+    key: 'favoritePost',
+    value: function favoritePost(imgArr, gifArr, title) {
+      fetch('http://localhost:3010/favorite', {
+        method: 'POST',
+        body: JSON.stringify({ imgArr: imgArr, gifArr: gifArr, title: title }),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }).then(function (res) {
+        return res.json();
+      }).then(function (res) {
+        console.log('the response>>> ', res);
+      });
+    }
+  }, {
+    key: 'componentWillMount',
+    value: function componentWillMount() {}
+  }, {
     key: 'render',
     value: function render() {
       return _react2.default.createElement(
         'div',
         null,
-        _react2.default.createElement(_MostViralButton2.default, { getMostViral: this.getMostViral.bind(this) }),
-        _react2.default.createElement('br', null),
-        _react2.default.createElement(_PreviousButton2.default, { prevImg: this.prevImg.bind(this) }),
-        _react2.default.createElement(_NextButton2.default, { nextImg: this.nextImg.bind(this) }),
-        _react2.default.createElement(_MainDisplay2.default, { imgurList: this.state.imgurList, currIndx: this.state.currIndx })
+        _react2.default.createElement(
+          'center',
+          null,
+          _react2.default.createElement(
+            'button',
+            { onClick: this.clearList.bind(this) },
+            'clear imgurlist'
+          ),
+          _react2.default.createElement(_MostViralButton2.default, { getMostViral: this.getMostViral.bind(this) }),
+          _react2.default.createElement('br', null),
+          _react2.default.createElement(_PreviousButton2.default, { prevImg: this.prevImg.bind(this) }),
+          _react2.default.createElement(_NextButton2.default, { nextImg: this.nextImg.bind(this) }),
+          this.state.imgurList.length > 0 ? _react2.default.createElement(_MainDisplay2.default, { favPost: this.favoritePost, imgurList: this.state.imgurList, currIndx: this.state.currIndx }) : console.log('hi hi')
+        )
       );
     }
   }]);
@@ -18377,55 +18414,100 @@ var _reactIframe = __webpack_require__(30);
 
 var _reactIframe2 = _interopRequireDefault(_reactIframe);
 
+var _FavoriteButton = __webpack_require__(37);
+
+var _FavoriteButton2 = _interopRequireDefault(_FavoriteButton);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var MainDisplay = function MainDisplay(props) {
-  var imgLink = void 0;
+  var imgLink = [];
+  var gifLink = [];
   var data = props.imgurList[props.currIndx];
+  var id = data.id;
   var isGif = false;
-  if (data.images === undefined) {
-    imgLink = data.gifv;
-    isGif = true;
-  } else if (data.images[0].gifv !== undefined) {
-    imgLink = data.images[0].gifv;
-    isGif = true;
-  } else {
-    imgLink = data.images.map(function (img) {
-      return img.link;
+  if (data.images) {
+    data.images.forEach(function (link) {
+      var linkObj = { id: id };
+      if (link.description) {
+        linkObj.description = link.description;
+      }
+      if (link.gifv) {
+        linkObj.link = link.gifv;
+        gifLink.push(linkObj);
+      } else {
+        linkObj.link = link.link;
+        imgLink.push(linkObj);
+      }
     });
+  } else if (data.gifv || data.gif) {
+    var linkObj = { id: id, link: data.gifv || data.gif };
+    gifLink.push(linkObj);
+  } else {
+    var _linkObj = { id: id, link: data.link };
+    imgLink.push(_linkObj);
   }
 
   return _react2.default.createElement(
     'div',
     { className: 'mainDisplay' },
+    _react2.default.createElement(_FavoriteButton2.default, { favPost: props.favPost, imgArr: imgLink, gifArr: gifLink, title: data.title }),
     _react2.default.createElement(
-      'h3',
+      'center',
       null,
-      data.title
-    ),
-    _react2.default.createElement(
-      'h2',
-      null,
-      console.log(imgLink)
-    ),
-    _react2.default.createElement(
-      'p',
-      null,
-      data.description
-    ),
-    isGif ? _react2.default.createElement(_reactIframe2.default, { url: imgLink,
-      width: '800px',
-      height: '1000px',
-      display: 'block',
-      position: 'relative' }) : imgLink.map(function (link, i) {
-      return _react2.default.createElement('img', { key: i, src: link, width: '800' });
-    })
+      _react2.default.createElement(
+        'h3',
+        null,
+        data.title
+      ),
+      _react2.default.createElement(
+        'h2',
+        null,
+        console.log("the imgLink>>>", imgLink)
+      ),
+      _react2.default.createElement(
+        'h2',
+        null,
+        console.log("the gifLink>>>", gifLink)
+      ),
+      _react2.default.createElement(
+        'p',
+        null,
+        data.description
+      ),
+      imgLink.map(function (link, i) {
+        return _react2.default.createElement(
+          'div',
+          { key: i },
+          _react2.default.createElement('img', { src: link.link, width: '500' }),
+          _react2.default.createElement(
+            'p',
+            null,
+            link.description
+          )
+        );
+      }),
+      gifLink.map(function (link, i) {
+        return _react2.default.createElement(
+          'div',
+          { key: i },
+          _react2.default.createElement('iframe', { src: link.link,
+            width: "800",
+            height: "800",
+            frameBorder: 0,
+            align: "middle" }),
+          _react2.default.createElement(
+            'p',
+            null,
+            link.description
+          )
+        );
+      })
+    )
   );
 };
 
 exports.default = MainDisplay;
-
-//height="500px" width="500px"
 
 /***/ }),
 /* 28 */
@@ -19302,6 +19384,36 @@ exports.default = PreviousButton;
 
 /***/ }),
 /* 37 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var FavoriteButton = function FavoriteButton(props) {
+  var favoritePost = function favoritePost() {
+    props.favPost(props.imgArr, props.gifArr, props.title);
+  };
+  return _react2.default.createElement(
+    'button',
+    { className: 'favoriteButn', onClick: favoritePost },
+    'Favorite'
+  );
+};
+
+exports.default = FavoriteButton;
+
+/***/ }),
+/* 38 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
